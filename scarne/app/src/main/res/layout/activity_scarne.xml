@@ -43,6 +43,7 @@
         android:layout_below="@id/dice"
         android:id="@+id/hold"
         android:layout_toRightOf="@id/roll"
+        android:onClick="Hold"
         />
 
     <Button
@@ -53,6 +54,7 @@
         android:layout_below="@id/dice"
         android:id="@+id/reset"
         android:layout_toRightOf="@id/hold"
+        android:onClick="ResetScore"
         />
 
 </RelativeLayout>
