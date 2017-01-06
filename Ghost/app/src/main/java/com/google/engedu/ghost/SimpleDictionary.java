@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static android.R.attr.value;
+
 public class SimpleDictionary implements GhostDictionary {
     private static final String TAG = "SampleDictionary";
     private ArrayList<String> words;
@@ -56,9 +58,27 @@ public class SimpleDictionary implements GhostDictionary {
 
     @Override
     public String getAnyWordStartingWith(String prefix) {
-        return null;
+        if (prefix.equals("")){
+            return words.get(mRandom.nextInt(words.size()));
+        }else {
+            int length = prefix.length();
+            int low = 0;
+            int high = this.words.size() - 1;
+            while (low <= high) {
+                int mid = (low + high) / 2;
+                String comparedPart = this.words.get(mid).substring(0, length);
+                int compare = comparedPart.compareToIgnoreCase(prefix);
+                if (compare > 0) {
+                    high = mid - 1;
+                } else if (compare < 0) {
+                    low = mid + 1;
+                } else {
+                    return this.words.get(mid);
+                }
+            }
+            return null;
+        }
     }
-
     @Override
     public String getGoodWordStartingWith(String prefix) {
         String selected = null;

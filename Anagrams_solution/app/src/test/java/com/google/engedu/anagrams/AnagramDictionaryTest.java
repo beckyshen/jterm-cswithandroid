@@ -61,7 +61,7 @@ public class AnagramDictionaryTest {
     public void IsAnagram(){
         //assertEquals(true, AnagramDictionary.isAnagram("hi","ih"));
         assertTrue(AnagramDictionary.isAnagram("spots","stops"));
-        assertTrue(AnagramDictionary.isAnagram("",""));
+        assertFalse(AnagramDictionary.isAnagram("",""));
         assertFalse(AnagramDictionary.isAnagram("cats","birds"));
     }
     @Test

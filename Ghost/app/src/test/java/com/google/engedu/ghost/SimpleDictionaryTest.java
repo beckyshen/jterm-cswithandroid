@@ -16,6 +16,8 @@
 
 package com.google.engedu.ghost;
 
+import android.util.Log;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -26,10 +28,12 @@ import java.util.Arrays;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class SimpleDictionaryTest {
+    String[] wordsArray = {"apples","cats","dictionary","donuts","papaya","phone"};
 
     @Test
     public void testIsWord() {
@@ -37,5 +41,10 @@ public class SimpleDictionaryTest {
 
     @Test
     public void testGetAnyWordStartingWith() {
+        ArrayList<String> words = new ArrayList<String>(Arrays.asList(wordsArray));
+        SimpleDictionary dict = new SimpleDictionary(words,0);
+        assertEquals("apples", dict.getAnyWordStartingWith("a"));
+        assertEquals("apples", dict.getAnyWordStartingWith("ap"));
+        assertEquals(null, dict.getAnyWordStartingWith(""));
     }
 }
