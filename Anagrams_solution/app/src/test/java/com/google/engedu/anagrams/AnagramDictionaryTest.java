@@ -16,11 +16,19 @@
 
 package com.google.engedu.anagrams;
 
+import org.apache.http.entity.StringEntity;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.*;
 
+import android.os.PowerManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.InputStream;
 import java.util.List;
@@ -29,11 +37,42 @@ import java.util.List;
 /**
  * Tests for AnagramDictionary
  */
-
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({Log.class})
 public class AnagramDictionaryTest {
     String[] words = {"act", "cat", "dog", "pot", "pots", "spots", "stop", "stops"};
-
+    @Before
+    public void beforeEach() {
+        PowerMockito.mockStatic(Log.class);
+    }
     @Test
+    public void testAddition() {
+        assertEquals(3, 1 + 2);
+        assertEquals(3, 2 + 2);
+    }
+    @Test
+    public void sortLetters(){
+        assertEquals("a", AnagramDictionary.sortLetters("a"));
+        assertEquals("opst", AnagramDictionary.sortLetters("stop"));
+        assertEquals("abcdefg",AnagramDictionary.sortLetters("ancdefg"));
+        assertEquals("",AnagramDictionary.sortLetters(""));
+    }
+    @Test
+    public void IsAnagram(){
+        //assertEquals(true, AnagramDictionary.isAnagram("hi","ih"));
+        assertTrue(AnagramDictionary.isAnagram("spots","stops"));
+        assertTrue(AnagramDictionary.isAnagram("",""));
+        assertFalse(AnagramDictionary.isAnagram("cats","birds"));
+    }
+    @Test
+    public void testgetAnagram(){
+        String[] strings = {"act","cat","cats"};
+        AnagramDictionary dict = new AnagramDictionary(strings);
+        List<String> anagrams = dict.getAnagrams("act");
+        assertTrue(anagrams.contains("cat"));
+    }
+
+   /* @Test
     public void testSortLetters() {
         assertEquals("act", AnagramDictionary.sortLetters("cat"));
         assertEquals("abcde", AnagramDictionary.sortLetters("abcde"));
@@ -48,7 +87,7 @@ public class AnagramDictionaryTest {
         assertFalse(AnagramDictionary.isAnagram("cat", "dog"));
         assertFalse(AnagramDictionary.isAnagram("cat", ""));
     }
-
+/*
     @Test
     public void testGetAnagrams() {
         AnagramDictionary dict = new AnagramDictionary(words);
@@ -72,11 +111,11 @@ public class AnagramDictionaryTest {
      * isGoodWord("spots", "post")        | true
      * isGoodWord("apostrophe", "post")   | false
      */
-    @Test
+    /*@Test
     public void testIsGoodWord() {
         AnagramDictionary dict = new AnagramDictionary(words);
         assertTrue(dict.isGoodWord("stops", "pot"));
         assertFalse(dict.isGoodWord("pots", "pot"));
         assertFalse(dict.isGoodWord("abcdefg", "cat"));
-    }
+    }*/
 }
