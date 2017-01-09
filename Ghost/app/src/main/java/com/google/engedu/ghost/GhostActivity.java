@@ -130,7 +130,7 @@ public class GhostActivity extends AppCompatActivity {
         TextView text = (TextView) findViewById(R.id.ghostText);
         enableKey = false;
         // Do computer turn stuff then make it the user's turn again
-        if (dictionary.isWord(currentWord)&& currentWord.length()>4){
+        if (dictionary.isWord(currentWord)&& currentWord.length()>=4){
             label.setText("You lose. You completed the word");
         }else if(dictionary.getAnyWordStartingWith(currentWord) == null){
             label.setText("You lose. No word can be completed from this fragment");
@@ -145,16 +145,16 @@ public class GhostActivity extends AppCompatActivity {
 
         }
     }
-    private void Challenge(){
+    public void Challenge(View view){
         TextView text = (TextView) findViewById(R.id.ghostText);
         TextView label = (TextView) findViewById(R.id.gameStatus);
-        if (dictionary.isWord(currentWord)&& currentWord.length()>4){
+        if (dictionary.isWord(currentWord)&& currentWord.length()>=4){
             label.setText("You win. Computer completed the word");
         }else if(dictionary.getAnyWordStartingWith(currentWord) == null){
             label.setText("You win. No word can be completed from this fragment");
         }else{
             label.setText("You lose. The possible word is "+dictionary.getAnyWordStartingWith(currentWord));
-        }
+        }enableKey = false;
     }
 
 }

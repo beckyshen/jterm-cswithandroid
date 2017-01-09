@@ -190,7 +190,6 @@ public class GhostActivity extends AppCompatActivity {
         if (challengeSuccessful) {
             return;
         }
-
         userTurn = false;
 
         // Do computer turn stuff then make it the user's turn again
