@@ -37,6 +37,7 @@ public class SimpleDictionary implements GhostDictionary {
     public SimpleDictionary(InputStream wordListStream) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(wordListStream));
         words = new ArrayList<>();
+        mRandom = new Random();
         String line = null;
         while((line = in.readLine()) != null) {
             String word = line.trim();
@@ -60,14 +61,20 @@ public class SimpleDictionary implements GhostDictionary {
     public String getAnyWordStartingWith(String prefix) {
         if (prefix.equals("")){
             return words.get(mRandom.nextInt(words.size()));
+
         }else {
             int length = prefix.length();
             int low = 0;
             int high = this.words.size() - 1;
             while (low <= high) {
                 int mid = (low + high) / 2;
-                String comparedPart = this.words.get(mid).substring(0, length);
-                int compare = comparedPart.compareToIgnoreCase(prefix);
+                String midWord = this.words.get(mid);
+                String comparedPart = "";
+                if(length > midWord.length()){
+                    comparedPart = midWord;
+                }else {
+                    comparedPart = this.words.get(mid).substring(0, length);
+                } int compare = comparedPart.compareTo(prefix);
                 if (compare > 0) {
                     high = mid - 1;
                 } else if (compare < 0) {

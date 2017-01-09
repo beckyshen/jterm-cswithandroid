@@ -32,7 +32,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="48sp"
+            android:textSize="@dimen/frontsize"
             android:id="@+id/ghostText"
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
@@ -47,6 +47,26 @@
             android:layout_below="@id/ghostText"
             android:layout_alignParentStart="true"
             />
+        <Button
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:id="@+id/challenge"
+            android:text="Challenge"
+            android:onClick="Challenge"
+            android:layout_below="@id/gameStatus"
+            android:layout_alignParentStart="true"
+        />
+        <Button
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:id="@+id/restart"
+            android:text="@string/button_restart"
+            android:onClick="onStart"
+            android:layout_below="@id/gameStatus"
+            android:layout_toRightOf="@id/challenge"
+
+            />
+
 
     </RelativeLayout>
 

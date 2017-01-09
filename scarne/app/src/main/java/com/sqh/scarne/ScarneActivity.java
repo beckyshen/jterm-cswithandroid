@@ -38,6 +38,7 @@ public class ScarneActivity extends AppCompatActivity {
         switch (diceNumber) {
             case 1:
                 Scarnedice.setImageDrawable(getResources().getDrawable(R.drawable.dice1));
+                Scarnedice.setContentDescription("1");
                 break;
             case 2:
                 Scarnedice.setImageDrawable(getResources().getDrawable(R.drawable.dice2));

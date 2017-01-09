@@ -19,6 +19,7 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,6 +45,7 @@ public class GhostActivity extends AppCompatActivity {
     private boolean userTurn = false;
     private Random random = new Random();
     private String currentWord = "";
+    private boolean enableKey = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +81,6 @@ public class GhostActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -90,6 +91,14 @@ public class GhostActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        int unicode = event.getUnicodeChar();
+        if (enableKey&&((unicode<='z' && unicode >='a') || (unicode <= 'Z'&& unicode >= 'A')) ){
+            String newletter = String.valueOf((char) unicode);
+            currentWord += newletter;
+            TextView text = (TextView) findViewById(R.id.ghostText);
+            text.setText(currentWord.toLowerCase());
+            computerTurn();
+        }
         return super.onKeyUp(keyCode, event);
     }
 
@@ -100,12 +109,14 @@ public class GhostActivity extends AppCompatActivity {
      * @return true
      */
     public boolean onStart(View view) {
+        currentWord = "";
         userTurn = random.nextBoolean();
         TextView text = (TextView) findViewById(R.id.ghostText);
         text.setText("");
         TextView label = (TextView) findViewById(R.id.gameStatus);
         if (userTurn) {
             label.setText(USER_TURN);
+            enableKey = true;
         } else {
             label.setText(COMPUTER_TURN);
             computerTurn();
@@ -113,10 +124,37 @@ public class GhostActivity extends AppCompatActivity {
         return true;
     }
 
+
     private void computerTurn() {
         TextView label = (TextView) findViewById(R.id.gameStatus);
+        TextView text = (TextView) findViewById(R.id.ghostText);
+        enableKey = false;
         // Do computer turn stuff then make it the user's turn again
-        userTurn = true;
-        label.setText(USER_TURN);
+        if (dictionary.isWord(currentWord)&& currentWord.length()>4){
+            label.setText("You lose. You completed the word");
+        }else if(dictionary.getAnyWordStartingWith(currentWord) == null){
+            label.setText("You lose. No word can be completed from this fragment");
+        }else{
+            String compWord = dictionary.getAnyWordStartingWith(currentWord);
+            int index = currentWord.length();
+            currentWord += compWord.substring(index,index+1);
+            text.setText(currentWord);
+            userTurn = true;
+            enableKey = true;
+            label.setText(USER_TURN);
+
+        }
     }
+    private void Challenge(){
+        TextView text = (TextView) findViewById(R.id.ghostText);
+        TextView label = (TextView) findViewById(R.id.gameStatus);
+        if (dictionary.isWord(currentWord)&& currentWord.length()>4){
+            label.setText("You win. Computer completed the word");
+        }else if(dictionary.getAnyWordStartingWith(currentWord) == null){
+            label.setText("You win. No word can be completed from this fragment");
+        }else{
+            label.setText("You lose. The possible word is "+dictionary.getAnyWordStartingWith(currentWord));
+        }
+    }
+
 }
